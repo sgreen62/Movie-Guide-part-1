@@ -42,38 +42,22 @@ def remove_movie(movies):
         print("Invalid input. Please enter a number.")
     display_movies(movies)
 
-    static void DisplayMovies(List<string> movies)
-    {
-        Console.WriteLine("\nMovie List:");
-        for (int i = 0; i < movies.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {movies[i]}");
-        }
-    }
+def movie_guide():
+    movies = initialize_movie_list()
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice: ")
+        if choice == "1":
+            display_movies(movies)
+        elif choice == "2":
+            add_movie(movies)
+        elif choice == "3":
+            remove_movie(movies)
+        elif choice == "4":
+            print("Exiting program...")
+            break
+        else:
+            print("Invalid option. Please enter a number between 1-4.")
 
-    static void AddMovie(List<string> movies)
-    {
-        Console.Write("\nEnter movie name to add: ");
-        string newMovie = Console.ReadLine();
-        movies.Add(newMovie);
-        Console.WriteLine($"'{newMovie}' added to the list.");
-        DisplayMovies(movies);
-    }
-
-    static void RemoveMovie(List<string> movies)
-    {
-        DisplayMovies(movies);
-        Console.Write("\nEnter the number of the movie to remove: ");
-        
-        if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= movies.Count)
-        {
-            Console.WriteLine($"Removing '{movies[index - 1]}'...");
-            movies.RemoveAt(index - 1);
-            DisplayMovies(movies);
-        }
-        else
-        {
-            Console.WriteLine("Invalid number. Please enter a valid movie number.");
-        }
-    }
-}
+# Run the movie guide
+movie_guide()
