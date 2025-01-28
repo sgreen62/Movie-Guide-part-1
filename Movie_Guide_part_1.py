@@ -1,87 +1,63 @@
-using System;
-using System.Collections.Generic;
+# Shawn Green
+# CIS261
+# Movie Guide Part 1
 
-class Program
-{
-    static void Main()
-    {
-        // Prepopulate movie list
-        List<string> movies = InitializeMovieList();
-        
-        // Display menu and process user choices
-        while (true)
-        {
-            DisplayMenu();
-            Console.Write("\nEnter your choice: ");
-            string choice = Console.ReadLine();
+def display_menu():
+    print("\nMovie Guide")
+    print("1. View Movies")
+    print("2. Add Movie")
+    print("3. Remove Movie")
+    print("4. Exit")
 
-            switch (choice)
-            {
-                case "1":
-                    DisplayMovies(movies);
-                    break;
-                case "2":
-                    AddMovie(movies);
-                    break;
-                case "3":
-                    RemoveMovie(movies);
-                    break;
-                case "4":
-                    Console.WriteLine("Exiting program...");
-                    return;
-                default:
-                    Console.WriteLine("Invalid option. Please enter a number between 1-4.");
-                    break;
-            }
-        }
-    }
+def initialize_movie_list():
+    return ["Inception", "The Matrix", "Interstellar"]
 
-    static void DisplayMenu()
-    {
-        Console.WriteLine("\nMovie Guide");
-        Console.WriteLine("1. View Movies");
-        Console.WriteLine("2. Add Movie");
-        Console.WriteLine("3. Remove Movie");
-        Console.WriteLine("4. Exit");
-    }
+def display_movies(movies):
+    if not movies:
+        print("\nNo movies in the list.")
+        return
+    print("\nMovie List:")
+    for i, movie in enumerate(movies, start=1):
+        print(f"{i}. {movie}")
 
-    static List<string> InitializeMovieList()
-    {
-        return new List<string> { "Inception", "The Matrix", "Interstellar" };
-    }
+def add_movie(movies):
+    new_movie = input("\nEnter movie name to add: ")
+    if new_movie.strip():
+        movies.append(new_movie)
+        print(f"'{new_movie}' added to the list.")
+    else:
+        print("Movie name cannot be empty.")
+    display_movies(movies)
 
-    static void DisplayMovies(List<string> movies)
-    {
-        Console.WriteLine("\nMovie List:");
-        for (int i = 0; i < movies.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {movies[i]}");
-        }
-    }
+def remove_movie(movies):
+    display_movies(movies)
+    try:
+        index = int(input("\nEnter the number of the movie to remove: "))
+        if 1 <= index <= len(movies):
+            print(f"Removing '{movies[index - 1]}'...")
+            movies.pop(index - 1)
+        else:
+            print("Invalid number. Please enter a valid movie number.")
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+    display_movies(movies)
 
-    static void AddMovie(List<string> movies)
-    {
-        Console.Write("\nEnter movie name to add: ");
-        string newMovie = Console.ReadLine();
-        movies.Add(newMovie);
-        Console.WriteLine($"'{newMovie}' added to the list.");
-        DisplayMovies(movies);
-    }
+def movie_guide():
+    movies = initialize_movie_list()
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice: ")
+        if choice == "1":
+            display_movies(movies)
+        elif choice == "2":
+            add_movie(movies)
+        elif choice == "3":
+            remove_movie(movies)
+        elif choice == "4":
+            print("Exiting program...")
+            break
+        else:
+            print("Invalid option. Please enter a number between 1-4.")
 
-    static void RemoveMovie(List<string> movies)
-    {
-        DisplayMovies(movies);
-        Console.Write("\nEnter the number of the movie to remove: ");
-        
-        if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= movies.Count)
-        {
-            Console.WriteLine($"Removing '{movies[index - 1]}'...");
-            movies.RemoveAt(index - 1);
-            DisplayMovies(movies);
-        }
-        else
-        {
-            Console.WriteLine("Invalid number. Please enter a valid movie number.");
-        }
-    }
-}
+# Run the movie guide
+movie_guide()
